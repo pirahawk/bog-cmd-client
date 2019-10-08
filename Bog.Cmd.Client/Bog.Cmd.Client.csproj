@@ -16,4 +16,10 @@
     <ProjectReference Include="..\Bog.Cmd.Domain\Bog.Cmd.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="config.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

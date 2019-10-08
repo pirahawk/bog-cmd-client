@@ -1,9 +1,7 @@
-﻿using Bog.Cmd.CommandLine.Hosting;
+﻿using Bog.Cmd.CommandLine;
+using Bog.Cmd.CommandLine.Hosting;
 using Microsoft.Extensions.DependencyInjection;
-using System.Linq;
 using System.Threading.Tasks;
-using Bog.Cmd.CommandLine;
-using Bog.Cmd.CommandLine.Application;
 
 namespace Bog.Cmd.Client
 {

@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Bog.Cmd.CommandLine.Application;
+using Bog.Cmd.Domain.Models;
 using Bog.Cmd.Domain.Values;
 
 namespace Bog.Cmd.CommandLine.Hosting
