@@ -1,8 +1,9 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using Bog.Cmd.CommandLine.Hosting;
+﻿using Bog.Cmd.CommandLine.Hosting;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
+using System.Linq;
+using System.Threading.Tasks;
+using Bog.Cmd.CommandLine;
+using Bog.Cmd.CommandLine.Application;
 
 namespace Bog.Cmd.Client
 {
@@ -15,15 +16,20 @@ namespace Bog.Cmd.Client
 
             using (var scope = host.Services.CreateScope())
             {
-                var hostedService = scope.ServiceProvider.GetService(typeof(IHostedService)) as IHostedService;
+                var cmdAppRunner = scope.ServiceProvider.GetService(typeof(IBogApplicationRunner)) as IBogApplicationRunner;
 
-                if (hostedService == null)
+                if (cmdAppRunner == null)
                 {
                     return;
                 }
 
-                Task.WaitAll(hostedService.StartAsync(CancellationToken.None));
+                Task.WaitAll(cmdAppRunner.RunAsync());
             }
         }
     }
+/*
+ * Build me:
+ *
+ *  dotnet publish -r win-x64 --no-self-contained /p:PublishSingleFile=true  
+ */
 }

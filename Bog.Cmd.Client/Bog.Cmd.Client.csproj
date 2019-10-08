@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Bog.Cmd.CommandLine\Bog.Cmd.CommandLine.csproj" />
+    <ProjectReference Include="..\Bog.Cmd.Domain\Bog.Cmd.Domain.csproj" />
   </ItemGroup>
 
 </Project>

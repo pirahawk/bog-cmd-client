@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Bog.Cmd.Domain.Application;
+using Bog.Cmd.CommandLine.Application;
 using Bog.Cmd.Domain.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -49,11 +49,27 @@ namespace Bog.Cmd.CommandLine.Hosting
 
         private static void ConfigureServices(HostBuilderContext context, IServiceCollection services)
         {
-            var commandArgs = context.Configuration.GetSection("commandArgs").Get<CommandArgs>();
-            commandArgs ??= new CommandArgs{ Args = Enumerable.Empty<string>().ToArray()};
-            services.AddSingleton(commandArgs);
-            services.AddTransient<IBogApiClientApplication, BogApiClientApplication>();
+            services.AddSingleton<CommandArgs>((sp) =>
+            {
+                var commandArgs = context.Configuration.GetSection("commandArgs").Get<CommandArgs>();
+                commandArgs ??= new CommandArgs { Args = Enumerable.Empty<string>().ToArray() };
+                return commandArgs;
+            });
+
+            services.AddTransient<BogApplicationBuilder>((sp) =>
+            {
+                var bogApiClientApplication = sp.GetService(typeof(BogApiClientApplication)) as BogApiClientApplication;
+                var builders = sp.GetServices<ICommandLineApplicationCommmandBuilder>()
+                    .DefaultIfEmpty()
+                    .ToArray();
+
+                return new BogApplicationBuilder(bogApiClientApplication, builders);
+            });
+
+            services.AddTransient<BogApiClientApplication>();
+            services.AddTransient<IBogApplicationRunner, BogApplicationRunner>();
             services.AddSingleton<IHostedService, BogApiClientService>();
+            services.AddTransient<ICommandLineApplicationCommmandBuilder, Testbuilder>();
         }
     }
 }
