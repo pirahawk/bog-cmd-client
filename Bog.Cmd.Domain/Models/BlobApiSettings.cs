@@ -2,7 +2,7 @@
 {
     public class BlobApiSettings
     {
-        public string HostName { get; set; }
+        public string Host { get; set; }
         public string Scheme { get; set; }
     }
 }

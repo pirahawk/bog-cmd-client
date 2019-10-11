@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Bog.Cmd.CommandLine.Application;
+using Bog.Cmd.CommandLine.Builders;
+using Bog.Cmd.CommandLine.Commands;
+using Bog.Cmd.CommandLine.Http;
+using Bog.Cmd.Domain.Commands;
 using Bog.Cmd.Domain.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -29,7 +33,7 @@ namespace Bog.Cmd.CommandLine.Hosting
             return (ctx, builder) =>
             {
                 AddJsonConfiguration(ctx, builder);
-                AddCommandLineArguments(args, builder);
+                AddCommandLineArgumentsConfiguration(args, builder);
             };
         }
 
@@ -42,12 +46,11 @@ namespace Bog.Cmd.CommandLine.Hosting
 
             foreach (IFileInfo fileInfo in directoryContents)
             {
-                Console.WriteLine($"Path Found: {fileInfo.PhysicalPath}");
                 builder.AddJsonFile(fileInfo.PhysicalPath);
             }
         }
 
-        private static void AddCommandLineArguments(string[] args, IConfigurationBuilder builder)
+        private static void AddCommandLineArgumentsConfiguration(string[] args, IConfigurationBuilder builder)
         {
             if (args == null)
             {
@@ -80,20 +83,34 @@ namespace Bog.Cmd.CommandLine.Hosting
                 return commandArgs;
             });
 
-            services.AddTransient<BogApplicationBuilder>((sp) =>
+            services.AddTransient<BogApplicationBuilderFactory>((sp) =>
             {
-                var bogApiClientApplication = sp.GetService(typeof(BogApiClientApplication)) as BogApiClientApplication;
-                var builders = sp.GetServices<ICommandLineApplicationCommmandBuilder>()
+                var bogApiClientApplication = sp.GetService<BogApiClientApplication>();
+                var builders = sp.GetServices<IApplicationBuilder>()
                     .DefaultIfEmpty()
                     .ToArray();
 
-                return new BogApplicationBuilder(bogApiClientApplication, builders);
+                return new BogApplicationBuilderFactory(bogApiClientApplication, builders);
+            });
+
+            services.AddTransient<BogHttpClient>((sp) =>
+            {
+                var apiSettings = sp.GetService<BlobApiSettings>();
+                var clientBaseAddress = new Uri($"{apiSettings.Scheme}://{apiSettings.Host}");
+                var client = new BogHttpClient();
+                client.BaseAddress = clientBaseAddress;
+                return client;
             });
 
             services.AddTransient<BogApiClientApplication>();
             services.AddTransient<IBogApplicationRunner, BogApplicationRunner>();
             services.AddSingleton<IHostedService, BogApiClientService>();
-            services.AddTransient<ICommandLineApplicationCommmandBuilder, Testbuilder>();
+
+            services.AddTransient<IApplicationBuilder, RootApplicationBuilder>();
+            services.AddTransient<IApplicationBuilder, CreateCommandBuilder>();
+            services.AddTransient<IApplicationBuilder, CreateArticleCommandBuilder>();
+
+            services.AddTransient<ICreateArticleCommand, CreateArticleCommand>();
         }
     }
 }

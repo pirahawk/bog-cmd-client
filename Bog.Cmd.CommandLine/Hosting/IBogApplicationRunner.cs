@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Bog.Cmd.CommandLine
+namespace Bog.Cmd.CommandLine.Hosting
 {
     public interface IBogApplicationRunner
     {

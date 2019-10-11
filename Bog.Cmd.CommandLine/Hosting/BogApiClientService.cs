@@ -1,33 +1,41 @@
-﻿using System;
+﻿using Microsoft.Extensions.Hosting;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Bog.Cmd.CommandLine.Application;
-using Bog.Cmd.Domain.Models;
-using Microsoft.Extensions.Hosting;
 
 namespace Bog.Cmd.CommandLine.Hosting
 {
-    //TODO: Delete when ready
+    //TODO: see https://andrewlock.net/introducing-ihostlifetime-and-untangling-the-generic-host-startup-interactions/
     public class BogApiClientService : IHostedService, IDisposable
     {
-        private readonly IBogApiClientApplication _app;
-        private readonly CommandArgs _args;
+        private readonly IBogApplicationRunner _runner;
 
-        public BogApiClientService(IBogApiClientApplication app, CommandArgs args)
+        public BogApiClientService(IBogApplicationRunner runner)
         {
-            _app = app;
-            _args = args;
+            _runner = runner;
         }
 
-        public Task StartAsync(CancellationToken cancellationToken)
+        public async Task StartAsync(CancellationToken cancellationToken)
         {
-            var result = _app.Execute(_args.Args);
-            return Task.FromResult(1);
+            try
+            {
+                await _runner.RunAsync();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            finally
+            {
+                Environment.Exit(0);
+            }
+            
         }
 
-        public Task StopAsync(CancellationToken cancellationToken)
+        public async Task StopAsync(CancellationToken cancellationToken)
         {
-            return Task.CompletedTask;
+            Environment.Exit(0);
+            await Task.CompletedTask;
         }
 
         public void Dispose()

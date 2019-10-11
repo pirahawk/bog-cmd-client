@@ -1,23 +1,26 @@
-﻿using Bog.Cmd.Domain.Models;
+﻿using System;
+using Bog.Cmd.Domain.Models;
 using System.Threading.Tasks;
 
 namespace Bog.Cmd.CommandLine.Hosting
 {
     public class BogApplicationRunner : IBogApplicationRunner
     {
-        private readonly BogApplicationBuilder _builder;
+        private readonly BogApplicationBuilderFactory _builderFactory;
         private readonly CommandArgs _args;
 
-        public BogApplicationRunner(BogApplicationBuilder builder, CommandArgs args)
+        public BogApplicationRunner(BogApplicationBuilderFactory builderFactory, CommandArgs args)
         {
-            _builder = builder;
+            _builderFactory = builderFactory;
             _args = args;
         }
 
         public async Task RunAsync()
         {
-            var app = _builder.Build();
+            //TODO need to surround this with better exception handling when done
+            var app = _builderFactory.Build();
             app.Execute(_args.Args);
+            //Environment.Exit(0);
 
             await Task.CompletedTask;
         }

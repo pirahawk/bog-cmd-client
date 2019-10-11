@@ -1,8 +1,9 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk" DefaultTargets="CopyExeForTesting">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.0</TargetFramework>
+    <AssemblyName>BogClient</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
@@ -22,4 +23,17 @@
     </None>
   </ItemGroup>
 
+  <!--Don't quite need to do this yet!!-->
+  <Target Name="CopyExeForTesting" AfterTargets="Publish">
+    <PropertyGroup>
+      <CurrentSlnDirectory>$([System.IO.Path]::GetDirectoryName($(MSBuildProjectDirectory)))</CurrentSlnDirectory>
+      <ExeTestLocation>$([System.IO.Path]::GetDirectoryName($(CurrentSlnDirectory)))$([System.IO.Path]::DirectorySeparatorChar)client-test</ExeTestLocation>
+    </PropertyGroup>
+    
+    <ItemGroup>
+      <BuildExe Include="$(OutputPath)\*.exe"></BuildExe>
+    </ItemGroup>
+    
+    <!--<Copy SourceFiles="@(BuildExe)" DestinationFolder="$(ExeTestLocation)"></Copy>-->
+  </Target>
 </Project>

@@ -1,9 +1,8 @@
 {
   "profiles": {
     "Bog.Cmd.Client": {
-      "commandName": "Project"
-      //,
-      //"commandLineArgs": "Some Argument"
+      "commandName": "Project",
+      "commandLineArgs": "create nested"
     }
   }
 }
