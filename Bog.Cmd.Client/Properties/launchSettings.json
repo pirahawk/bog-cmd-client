@@ -2,7 +2,7 @@
   "profiles": {
     "Bog.Cmd.Client": {
       "commandName": "Project",
-      "commandLineArgs": "create nested"
+      "commandLineArgs": "create article \"8724C4C5-7956-484A-896B-F379FDBC7D8C\" \"mr foo\""
     }
   }
 }

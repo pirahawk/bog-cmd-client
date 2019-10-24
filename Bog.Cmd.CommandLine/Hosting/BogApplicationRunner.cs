@@ -20,6 +20,7 @@ namespace Bog.Cmd.CommandLine.Hosting
             //TODO need to surround this with better exception handling when done
             var app = _builderFactory.Build();
             app.Execute(_args.Args);
+
             //Environment.Exit(0);
 
             await Task.CompletedTask;

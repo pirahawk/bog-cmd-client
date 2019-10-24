@@ -4,11 +4,10 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.0</TargetFramework>
     <AssemblyName>BogClient</AssemblyName>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Bog.Api.Common" Version="1.0.0" />
-    <PackageReference Include="Bog.Api.Domain" Version="1.0.0" />
     <PackageReference Include="Microsoft.Extensions.CommandLineUtils" Version="1.1.1" />
   </ItemGroup>
 
@@ -36,4 +35,10 @@
     
     <!--<Copy SourceFiles="@(BuildExe)" DestinationFolder="$(ExeTestLocation)"></Copy>-->
   </Target>
+  
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Message Importance="high" Text="Running Postbuild event to publish client"></Message>
+    <Exec Command="dotnet publish --no-self-contained --no-build /p:PublishSingleFile=false -o &quot;C:\Code\blog\client-test&quot;  $(ProjectPath)" />
+  </Target>
+
 </Project>

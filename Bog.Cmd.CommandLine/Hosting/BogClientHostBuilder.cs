@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.NetworkInformation;
 using Bog.Cmd.CommandLine.Application;
 using Bog.Cmd.CommandLine.Builders;
 using Bog.Cmd.CommandLine.Commands;
 using Bog.Cmd.CommandLine.Http;
 using Bog.Cmd.Domain.Commands;
+using Bog.Cmd.Domain.FileIO;
 using Bog.Cmd.Domain.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -105,12 +107,29 @@ namespace Bog.Cmd.CommandLine.Hosting
             services.AddTransient<BogApiClientApplication>();
             services.AddTransient<IBogApplicationRunner, BogApplicationRunner>();
             services.AddSingleton<IHostedService, BogApiClientService>();
+            services.AddSingleton<IClientFileProvider, ClientFileProvider>();
 
+            RegisterPrimaryCommmandBuilders(services);
+            RegisterSubCommandBuilders(services);
+            RegisterCommands(services);
+        }
+
+        private static void RegisterCommands(IServiceCollection services)
+        {
+            services.AddTransient<ICreateArticleCommand, CreateArticleCommand>();
+            services.AddTransient<IPingCommand, PingCommand>();
+        }
+
+        private static void RegisterPrimaryCommmandBuilders(IServiceCollection services)
+        {
             services.AddTransient<IApplicationBuilder, RootApplicationBuilder>();
             services.AddTransient<IApplicationBuilder, CreateCommandBuilder>();
-            services.AddTransient<IApplicationBuilder, CreateArticleCommandBuilder>();
+            services.AddTransient<IApplicationBuilder, PingCommandBuilder>();
+        }
 
-            services.AddTransient<ICreateArticleCommand, CreateArticleCommand>();
+        private static void RegisterSubCommandBuilders(IServiceCollection services)
+        {
+            services.AddTransient<IApplicationBuilder, CreateArticleCommandBuilder>();
         }
     }
 }
