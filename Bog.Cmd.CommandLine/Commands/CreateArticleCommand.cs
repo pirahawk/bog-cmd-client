@@ -1,11 +1,11 @@
-﻿using Bog.Cmd.CommandLine.Http;
+﻿using Bog.Api.Domain.Models.Http;
+using Bog.Cmd.CommandLine.Http;
 using Bog.Cmd.Domain.Commands;
 using Bog.Cmd.Domain.FileIO;
+using Bog.Cmd.Domain.Values;
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Bog.Api.Domain.Models.Http;
-using Bog.Cmd.Domain.Values;
 
 namespace Bog.Cmd.CommandLine.Commands
 {
@@ -31,6 +31,7 @@ namespace Bog.Cmd.CommandLine.Commands
             if (_fileProvider.CheckMetaFileExists(MetaFileNameValues.ARTICLE))
             {
                 Console.WriteLine("An Article already exists within the current context");
+                return;
             }
 
             var response = await _client.PostMessage(BogApiRouteValues.POST_ARTICLE, new ArticleRequest
@@ -44,8 +45,11 @@ namespace Bog.Cmd.CommandLine.Commands
                 throw new HttpRequestException($"failed HTTP request: {response.StatusCode}\n{response.ReasonPhrase}");
             }
 
+            var readAsStringAsync = response.Content.ReadAsStringAsync();
+            await _fileProvider.WriteMetaFile(MetaFileNameValues.ARTICLE, readAsStringAsync);
             
-
+            var articleResponse = await readAsStringAsync;
+            Console.WriteLine();
         }
     }
 }
