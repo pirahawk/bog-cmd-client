@@ -27,7 +27,7 @@ namespace Bog.Cmd.CommandLine.Builders
             createCommand.Command(CreateSubCommands.ARTICLE, app =>
             {
                 app.HelpOption(CommandApplicationConfigurationValues.HELP_TEMPLATE);
-                app.Description = "Nested Command";
+                app.Description = "create a new bog article";
 
                 var blogId = app.Argument(CommandApplicationArgumentValues.BLOG_ID, CommandApplicationArgumentDescriptions.BLOG_ID);
                 var author = app.Argument(CommandApplicationArgumentValues.AUTHOR, CommandApplicationArgumentDescriptions.AUTHOR);

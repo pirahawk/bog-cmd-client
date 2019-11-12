@@ -4,5 +4,7 @@
     {
         public const string BLOG_ID = "The Blog Id to use as context";
         public const string AUTHOR = "Article Author";
+        public const string PUBLISH = "Mark as published";
+
     }
 }

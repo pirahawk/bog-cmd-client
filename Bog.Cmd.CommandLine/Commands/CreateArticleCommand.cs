@@ -6,6 +6,7 @@ using Bog.Cmd.Domain.Values;
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Bog.Cmd.Common.Json;
 
 namespace Bog.Cmd.CommandLine.Commands
 {
@@ -19,7 +20,6 @@ namespace Bog.Cmd.CommandLine.Commands
             _client = client;
             _fileProvider = fileProvider;
         }
-
 
         public async Task CreateArticle(string blogId, string author)
         {
@@ -45,11 +45,11 @@ namespace Bog.Cmd.CommandLine.Commands
                 throw new HttpRequestException($"failed HTTP request: {response.StatusCode}\n{response.ReasonPhrase}");
             }
 
-            var readAsStringAsync = response.Content.ReadAsStringAsync();
-            await _fileProvider.WriteMetaFile(MetaFileNameValues.ARTICLE, readAsStringAsync);
-            
-            var articleResponse = await readAsStringAsync;
-            Console.WriteLine();
+            var blogContentTask = response.Content.ReadAsStringAsync();
+            await _fileProvider.WriteMetaFile(MetaFileNameValues.ARTICLE, blogContentTask);
+            var contents = await blogContentTask;
+            contents = JsonUtility.Prettify<ArticleResponse>(contents);
+            Console.WriteLine(contents);
         }
     }
 }

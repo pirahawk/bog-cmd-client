@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
+using Bog.Cmd.Common.Json;
 using Bog.Cmd.Domain.Values;
 
 namespace Bog.Cmd.Domain.FileIO
@@ -26,9 +27,22 @@ namespace Bog.Cmd.Domain.FileIO
             {
                 using (var sw = new StreamWriter(fileStream))
                 {
-                    sw.WriteAsync(content.ToCharArray(), 0, content.Length);
+                    await sw.WriteAsync(content.ToCharArray(), 0, content.Length);
                 }
             }
+        }
+
+        public async Task<TModel> ReadMetaFile<TModel>(string metaFileName)
+        {
+            if (!CheckMetaFileExists(metaFileName))
+            {
+                return default(TModel);
+            }
+
+            var readPath = GetMetaFilePath(metaFileName);
+            var readAllTextAsync = await File.ReadAllTextAsync(readPath);
+            var model = JsonUtility.Deserialize<TModel>(readAllTextAsync);
+            return model;
         }
 
         private void EnsureRootDirectoryExists()

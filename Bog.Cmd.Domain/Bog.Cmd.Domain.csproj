@@ -14,4 +14,8 @@
     <Folder Include="Application\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Bog.Cmd.Common\Bog.Cmd.Common.csproj" />
+  </ItemGroup>
+
 </Project>

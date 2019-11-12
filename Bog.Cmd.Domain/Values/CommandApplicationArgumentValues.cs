@@ -4,6 +4,5 @@
     {
         public const string BLOG_ID = "blog-id";
         public const string AUTHOR = "author";
-
     }
 }

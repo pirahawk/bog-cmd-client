@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net.NetworkInformation;
-using Bog.Cmd.CommandLine.Application;
+﻿using Bog.Cmd.CommandLine.Application;
 using Bog.Cmd.CommandLine.Builders;
 using Bog.Cmd.CommandLine.Commands;
 using Bog.Cmd.CommandLine.Http;
@@ -14,6 +9,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 namespace Bog.Cmd.CommandLine.Hosting
 {
@@ -118,18 +117,22 @@ namespace Bog.Cmd.CommandLine.Hosting
         {
             services.AddTransient<ICreateArticleCommand, CreateArticleCommand>();
             services.AddTransient<IPingCommand, PingCommand>();
+            services.AddTransient<IUpdateArticleCommand, UpdateArticleCommand>();
         }
 
         private static void RegisterPrimaryCommmandBuilders(IServiceCollection services)
         {
             services.AddTransient<IApplicationBuilder, RootApplicationBuilder>();
             services.AddTransient<IApplicationBuilder, CreateCommandBuilder>();
+            services.AddTransient<IApplicationBuilder, UpdateCommandBuilder>();
             services.AddTransient<IApplicationBuilder, PingCommandBuilder>();
         }
 
         private static void RegisterSubCommandBuilders(IServiceCollection services)
         {
             services.AddTransient<IApplicationBuilder, CreateArticleCommandBuilder>();
+            services.AddTransient<IApplicationBuilder, UpdateArticleCommandBuilder>();
+
         }
     }
 }
