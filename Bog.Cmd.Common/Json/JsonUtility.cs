@@ -5,19 +5,13 @@ namespace Bog.Cmd.Common.Json
 {
     public static class JsonUtility
     {
-        static JsonSerializerOptions Options
-        {
-            get
-            {
-                return new JsonSerializerOptions
-                {
-                    PropertyNameCaseInsensitive = true,
-                    IgnoreNullValues = true,
-                    AllowTrailingCommas = true,
-                    WriteIndented = true
-                };
-            }
-        }
+        static JsonSerializerOptions Options => new JsonSerializerOptions
+                                                {
+                                                    PropertyNameCaseInsensitive = true,
+                                                    IgnoreNullValues = true,
+                                                    AllowTrailingCommas = true,
+                                                    WriteIndented = true
+                                                };
 
         public static TModel Deserialize<TModel>(string modelText)
         {

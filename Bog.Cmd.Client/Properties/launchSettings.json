@@ -2,7 +2,7 @@
   "profiles": {
     "Bog.Cmd.Client": {
       "commandName": "Project",
-      "commandLineArgs": "update article -a \"Mr noji\" -p"
+      "commandLineArgs": "delete article"
     }
   }
 }

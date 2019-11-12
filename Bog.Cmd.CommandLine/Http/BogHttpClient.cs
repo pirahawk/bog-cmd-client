@@ -22,10 +22,20 @@ namespace Bog.Cmd.CommandLine.Http
 
         public async Task<HttpResponseMessage> GetMessage(string apiRoute)
         {
+            return await SendRequestNoPayload(apiRoute, HttpMethod.Get);
+        }
+
+        public async Task<HttpResponseMessage> DeleteMessage(string apiRoute)
+        {
+            return await SendRequestNoPayload(apiRoute, HttpMethod.Delete);
+        }
+
+        private async Task<HttpResponseMessage> SendRequestNoPayload(string apiRoute, HttpMethod httpMethod)
+        {
             if (string.IsNullOrWhiteSpace(apiRoute))
                 throw new ArgumentException("Value cannot be null or whitespace.", nameof(apiRoute));
 
-            var request = new HttpRequestMessage(HttpMethod.Get, apiRoute);
+            var request = new HttpRequestMessage(httpMethod, apiRoute);
             var response = await SendAsync(request);
             return response;
         }

@@ -115,9 +115,10 @@ namespace Bog.Cmd.CommandLine.Hosting
 
         private static void RegisterCommands(IServiceCollection services)
         {
-            services.AddTransient<ICreateArticleCommand, CreateArticleCommand>();
             services.AddTransient<IPingCommand, PingCommand>();
+            services.AddTransient<ICreateArticleCommand, CreateArticleCommand>();
             services.AddTransient<IUpdateArticleCommand, UpdateArticleCommand>();
+            services.AddTransient<IDeleteArticleCommand, DeleteArticleCommand>();
         }
 
         private static void RegisterPrimaryCommmandBuilders(IServiceCollection services)
@@ -126,13 +127,14 @@ namespace Bog.Cmd.CommandLine.Hosting
             services.AddTransient<IApplicationBuilder, CreateCommandBuilder>();
             services.AddTransient<IApplicationBuilder, UpdateCommandBuilder>();
             services.AddTransient<IApplicationBuilder, PingCommandBuilder>();
+            services.AddTransient<IApplicationBuilder, DeleteCommandBuilder>();
         }
 
         private static void RegisterSubCommandBuilders(IServiceCollection services)
         {
             services.AddTransient<IApplicationBuilder, CreateArticleCommandBuilder>();
             services.AddTransient<IApplicationBuilder, UpdateArticleCommandBuilder>();
-
+            services.AddTransient<IApplicationBuilder, DeleteArticleCommandBuilder>();
         }
     }
 }
