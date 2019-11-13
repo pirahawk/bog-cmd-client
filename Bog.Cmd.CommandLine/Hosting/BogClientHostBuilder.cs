@@ -119,6 +119,7 @@ namespace Bog.Cmd.CommandLine.Hosting
             services.AddTransient<ICreateArticleCommand, CreateArticleCommand>();
             services.AddTransient<IUpdateArticleCommand, UpdateArticleCommand>();
             services.AddTransient<IDeleteArticleCommand, DeleteArticleCommand>();
+            services.AddTransient<IUpdateArticleContextWorkflow, UpdateArticleContextWorkflow>();
         }
 
         private static void RegisterPrimaryCommmandBuilders(IServiceCollection services)

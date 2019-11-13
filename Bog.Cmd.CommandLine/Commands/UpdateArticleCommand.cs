@@ -6,7 +6,6 @@ using Bog.Cmd.Domain.Values;
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Bog.Cmd.Common.Json;
 
 namespace Bog.Cmd.CommandLine.Commands
 {
@@ -14,11 +13,13 @@ namespace Bog.Cmd.CommandLine.Commands
     {
         private readonly BogHttpClient _client;
         private readonly IClientFileProvider _fileProvider;
+        private readonly IUpdateArticleContextWorkflow _updateArticleContextWorkflow;
 
-        public UpdateArticleCommand(BogHttpClient client, IClientFileProvider fileProvider)
+        public UpdateArticleCommand(BogHttpClient client, IClientFileProvider fileProvider, IUpdateArticleContextWorkflow updateArticleContextWorkflow)
         {
             _client = client;
             _fileProvider = fileProvider;
+            _updateArticleContextWorkflow = updateArticleContextWorkflow;
         }
 
         public async Task UpdateArticle(string author, bool publish)
@@ -51,18 +52,7 @@ namespace Bog.Cmd.CommandLine.Commands
                 throw new HttpRequestException($"failed HTTP request: {updateArticleResponse.StatusCode}\n{updateArticleResponse.ReasonPhrase}");
             }
 
-            var getArticleResponse = await _client.GetMessage(BogApiRouteValues.ARTICLE_GUID_FORMAT(articleContext.Id));
-
-            if (!getArticleResponse.IsSuccessStatusCode)
-            {
-                throw new HttpRequestException($"failed HTTP request: {getArticleResponse.StatusCode}\n{getArticleResponse.ReasonPhrase}");
-            }
-
-            var blogContentTask = getArticleResponse.Content.ReadAsStringAsync();
-            await _fileProvider.WriteMetaFile(MetaFileNameValues.ARTICLE, blogContentTask);
-            var contents = await blogContentTask;
-            contents = JsonUtility.Prettify<ArticleResponse>(contents);
-            Console.WriteLine(contents);
+            await _updateArticleContextWorkflow.GetAndUpdateArticleContext(articleContext);
         }
     }
 }

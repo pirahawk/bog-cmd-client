@@ -14,11 +14,13 @@ namespace Bog.Cmd.CommandLine.Commands
     {
         private readonly BogHttpClient _client;
         private readonly IClientFileProvider _fileProvider;
+        private readonly IUpdateArticleContextWorkflow _updateArticleContextWorkflow;
 
-        public DeleteArticleCommand(BogHttpClient client,  IClientFileProvider fileProvider)
+        public DeleteArticleCommand(BogHttpClient client,  IClientFileProvider fileProvider, IUpdateArticleContextWorkflow updateArticleContextWorkflow)
         {
             _client = client;
             _fileProvider = fileProvider;
+            _updateArticleContextWorkflow = updateArticleContextWorkflow;
         }
 
         public async Task MarkArticleAsDeleted()
@@ -44,18 +46,7 @@ namespace Bog.Cmd.CommandLine.Commands
                 throw new HttpRequestException($"failed HTTP request: {deleteResponse.StatusCode}\n{deleteResponse.ReasonPhrase}");
             }
 
-            var getArticleResponse = await _client.GetMessage(BogApiRouteValues.ARTICLE_GUID_FORMAT(articleContext.Id));
-
-            if (!getArticleResponse.IsSuccessStatusCode)
-            {
-                throw new HttpRequestException($"failed HTTP request: {getArticleResponse.StatusCode}\n{getArticleResponse.ReasonPhrase}");
-            }
-
-            var blogContentTask = getArticleResponse.Content.ReadAsStringAsync();
-            await _fileProvider.WriteMetaFile(MetaFileNameValues.ARTICLE, blogContentTask);
-            var contents = await blogContentTask;
-            contents = JsonUtility.Prettify<ArticleResponse>(contents);
-            Console.WriteLine(contents);
+            await _updateArticleContextWorkflow.GetAndUpdateArticleContext(articleContext);
         }
     }
 }
