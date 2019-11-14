@@ -5,6 +5,7 @@ using Bog.Api.Domain.Models.Http;
 using Bog.Cmd.CommandLine.Http;
 using Bog.Cmd.Common.Json;
 using Bog.Cmd.Domain.Commands;
+using Bog.Cmd.Domain.Extensions;
 using Bog.Cmd.Domain.FileIO;
 using Bog.Cmd.Domain.Values;
 
@@ -39,7 +40,7 @@ namespace Bog.Cmd.CommandLine.Commands
                 return;
             }
 
-            var deleteResponse = await _client.DeleteMessage(BogApiRouteValues.ARTICLE_GUID_FORMAT(articleContext.Id));
+            var deleteResponse = await _client.DeleteMessage(articleContext.GetSelfApiLink());
 
             if (!deleteResponse.IsSuccessStatusCode)
             {

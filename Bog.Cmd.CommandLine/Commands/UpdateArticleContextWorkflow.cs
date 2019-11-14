@@ -1,12 +1,13 @@
-﻿using System;
-using System.Net.Http;
-using System.Threading.Tasks;
-using Bog.Api.Domain.Models.Http;
+﻿using Bog.Api.Domain.Models.Http;
 using Bog.Cmd.CommandLine.Http;
 using Bog.Cmd.Common.Json;
 using Bog.Cmd.Domain.Commands;
+using Bog.Cmd.Domain.Extensions;
 using Bog.Cmd.Domain.FileIO;
 using Bog.Cmd.Domain.Values;
+using System;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace Bog.Cmd.CommandLine.Commands
 {
@@ -25,7 +26,7 @@ namespace Bog.Cmd.CommandLine.Commands
         {
             if (articleContext == null) throw new ArgumentNullException(nameof(articleContext));
 
-            var getArticleResponse = await _client.GetMessage(BogApiRouteValues.ARTICLE_GUID_FORMAT(articleContext.Id));
+            var getArticleResponse = await _client.GetMessage(articleContext.GetSelfApiLink());
 
             if (!getArticleResponse.IsSuccessStatusCode)
             {

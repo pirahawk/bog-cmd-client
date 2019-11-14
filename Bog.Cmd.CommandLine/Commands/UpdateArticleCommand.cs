@@ -6,6 +6,7 @@ using Bog.Cmd.Domain.Values;
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Bog.Cmd.Domain.Extensions;
 
 namespace Bog.Cmd.CommandLine.Commands
 {
@@ -45,7 +46,7 @@ namespace Bog.Cmd.CommandLine.Commands
                 BlogId = articleContext.BlogId
             };
 
-            var updateArticleResponse = await _client.PutMessage(BogApiRouteValues.ARTICLE_GUID_FORMAT(articleContext.Id), articleRequest);
+            var updateArticleResponse = await _client.PutMessage(articleContext.GetSelfApiLink(), articleRequest);
 
             if (!updateArticleResponse.IsSuccessStatusCode)
             {
