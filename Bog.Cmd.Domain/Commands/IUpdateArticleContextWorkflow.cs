@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Bog.Api.Domain.Models.Http;
 
 namespace Bog.Cmd.Domain.Commands
@@ -6,5 +7,6 @@ namespace Bog.Cmd.Domain.Commands
     public interface IUpdateArticleContextWorkflow
     {
         Task GetAndUpdateArticleContext(ArticleResponse articleContext);
+        Task GetAndUpdateArticleContext(Guid articleId);
     }
 }

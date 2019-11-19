@@ -26,7 +26,17 @@ namespace Bog.Cmd.CommandLine.Commands
         {
             if (articleContext == null) throw new ArgumentNullException(nameof(articleContext));
 
-            var getArticleResponse = await _client.GetMessage(articleContext.GetSelfApiLink());
+            await StoreArticleContext(articleContext.GetSelfApiLink());
+        }
+
+        public async Task GetAndUpdateArticleContext(Guid articleId)
+        {
+            await StoreArticleContext(BogApiRouteValues.ArticleByIdReferenceTemplate(articleId));
+        }
+
+        private async Task StoreArticleContext(string uri)
+        {
+            var getArticleResponse = await _client.GetMessage(uri);
 
             if (!getArticleResponse.IsSuccessStatusCode)
             {

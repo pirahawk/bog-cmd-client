@@ -34,7 +34,7 @@ namespace Bog.Cmd.CommandLine.Commands
                 return;
             }
 
-            var response = await _client.PostMessage(BogApiRouteValues.POST_ARTICLE, new ArticleRequest
+            var response = await _client.PostMessage(BogApiRouteValues.ARTICLE, new ArticleRequest
             {
                 Author = author,
                 BlogId = Guid.Parse(blogId)
