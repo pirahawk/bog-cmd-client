@@ -2,6 +2,7 @@
 {
     public static class CommandApplicationArgumentValues
     {
+        public const string FILE_NAME = "file-name";
         public const string BLOG_ID = "blog-id";
         public const string AUTHOR = "author";
         public const string ARTICLE_ID = "article-id";

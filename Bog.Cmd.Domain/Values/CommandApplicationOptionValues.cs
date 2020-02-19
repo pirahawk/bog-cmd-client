@@ -4,6 +4,5 @@
     {
         public const string AUTHOR = "-a|--author";
         public const string PUBLISH = "-p|--publish";
-
     }
 }

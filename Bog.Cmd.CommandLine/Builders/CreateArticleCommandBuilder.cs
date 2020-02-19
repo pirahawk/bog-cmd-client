@@ -1,6 +1,5 @@
-﻿using System;
-using System.Linq;
-using Bog.Cmd.CommandLine.Application;
+﻿using Bog.Cmd.CommandLine.Application;
+using Bog.Cmd.CommandLine.Extensions;
 using Bog.Cmd.Domain.Commands;
 using Bog.Cmd.Domain.Values;
 
@@ -17,12 +16,7 @@ namespace Bog.Cmd.CommandLine.Builders
 
         public void Build(BogApiClientApplication clientApplication)
         {
-            var createCommand = clientApplication.Commands.FirstOrDefault(c => c.Name == CommandTypeNameValues.CREATE_COMMAND);
-
-            if (createCommand == null)
-            {
-                throw new Exception($"Could not find {CommandTypeNameValues.CREATE_COMMAND}");
-            }
+            var createCommand = clientApplication.FindCommandByName(CommandTypeNameValues.CREATE_COMMAND);
 
             createCommand.Command(CreateSubCommands.ARTICLE, app =>
             {

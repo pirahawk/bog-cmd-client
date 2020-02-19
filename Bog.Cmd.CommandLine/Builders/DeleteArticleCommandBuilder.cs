@@ -1,9 +1,8 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using Bog.Cmd.CommandLine.Application;
+﻿using Bog.Cmd.CommandLine.Application;
+using Bog.Cmd.CommandLine.Extensions;
 using Bog.Cmd.Domain.Commands;
 using Bog.Cmd.Domain.Values;
+using System.Threading.Tasks;
 
 namespace Bog.Cmd.CommandLine.Builders
 {
@@ -18,13 +17,8 @@ namespace Bog.Cmd.CommandLine.Builders
 
         public void Build(BogApiClientApplication clientApplication)
         {
-            var deleteCommand = clientApplication.Commands.FirstOrDefault(c => c.Name == CommandTypeNameValues.DELETE_COMMAND);
-
-            if (deleteCommand == null)
-            {
-                throw new Exception($"Could not find {CommandTypeNameValues.DELETE_COMMAND}");
-            }
-
+            var deleteCommand = clientApplication.FindCommandByName(CommandTypeNameValues.DELETE_COMMAND);
+           
             deleteCommand.Command(CreateSubCommands.ARTICLE, app =>
             {
                 app.HelpOption(CommandApplicationConfigurationValues.HELP_TEMPLATE);

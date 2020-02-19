@@ -1,6 +1,5 @@
-﻿using System;
-using System.Linq;
-using Bog.Cmd.CommandLine.Application;
+﻿using Bog.Cmd.CommandLine.Application;
+using Bog.Cmd.CommandLine.Extensions;
 using Bog.Cmd.Domain.Commands;
 using Bog.Cmd.Domain.Values;
 using Microsoft.Extensions.CommandLineUtils;
@@ -18,13 +17,8 @@ namespace Bog.Cmd.CommandLine.Builders
 
         public void Build(BogApiClientApplication clientApplication)
         {
-            var updateCommand = clientApplication.Commands.FirstOrDefault(c => c.Name == CommandTypeNameValues.UPDATE_COMMAND);
-
-            if (updateCommand == null)
-            {
-                throw new Exception($"Could not find {CommandTypeNameValues.UPDATE_COMMAND}");
-            }
-
+            var updateCommand = clientApplication.FindCommandByName(CommandTypeNameValues.UPDATE_COMMAND);
+            
             updateCommand.Command(CreateSubCommands.ARTICLE, app =>
             {
                 app.HelpOption(CommandApplicationConfigurationValues.HELP_TEMPLATE);

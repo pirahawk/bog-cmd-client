@@ -2,7 +2,7 @@
   "profiles": {
     "Bog.Cmd.Client": {
       "commandName": "Project",
-      "commandLineArgs": "delete article"
+      "commandLineArgs": "update entry \"C:\\Code\\blog\\client-test\\inside\\entry.md\""
     }
   }
 }

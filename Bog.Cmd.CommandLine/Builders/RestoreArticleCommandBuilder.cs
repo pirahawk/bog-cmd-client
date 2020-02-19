@@ -1,8 +1,8 @@
-﻿using System;
-using System.Linq;
-using Bog.Cmd.CommandLine.Application;
+﻿using Bog.Cmd.CommandLine.Application;
+using Bog.Cmd.CommandLine.Extensions;
 using Bog.Cmd.Domain.Commands;
 using Bog.Cmd.Domain.Values;
+using System;
 
 namespace Bog.Cmd.CommandLine.Builders
 {
@@ -16,7 +16,7 @@ namespace Bog.Cmd.CommandLine.Builders
         }
         public void Build(BogApiClientApplication clientApplication)
         {
-            var restoreCommand = clientApplication.Commands.FirstOrDefault(c => c.Name == CommandTypeNameValues.RESTORE_COMMAND);
+            var restoreCommand = clientApplication.FindCommandByName(CommandTypeNameValues.RESTORE_COMMAND);
 
             if (restoreCommand == null)
             {

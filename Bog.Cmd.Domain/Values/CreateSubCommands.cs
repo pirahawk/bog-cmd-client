@@ -3,5 +3,7 @@
     public static class CreateSubCommands
     {
         public const string ARTICLE = "article";
+        public const string ENTRY = "entry";
+
     }
 }

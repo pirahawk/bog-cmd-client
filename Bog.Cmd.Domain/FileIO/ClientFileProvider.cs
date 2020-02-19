@@ -69,7 +69,7 @@ namespace Bog.Cmd.Domain.FileIO
             return rootMetaPath;
         }
 
-        private DirectoryInfo GetCurrentDirectory()
+        public DirectoryInfo GetCurrentDirectory()
         {
             var currentDirectory = new DirectoryInfo(Environment.CurrentDirectory);
             return currentDirectory;
