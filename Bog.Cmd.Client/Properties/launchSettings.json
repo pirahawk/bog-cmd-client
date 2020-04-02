@@ -2,7 +2,7 @@
   "profiles": {
     "Bog.Cmd.Client": {
       "commandName": "Project",
-      "commandLineArgs": "update entry \"C:\\Code\\blog\\client-test\\inside\\entry.md\""
+      "commandLineArgs": "update media *.png *.jpeg *.jpg *.exe *.dll"
     }
   }
 }

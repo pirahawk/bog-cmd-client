@@ -123,6 +123,7 @@ namespace Bog.Cmd.CommandLine.Hosting
             services.AddTransient<IRestoreArticleCommand, RestoreArticleCommand>();
             services.AddTransient<IUpdateEntryCommand, UpdateEntryCommand>();
             services.AddTransient<IGetArticleContextWorkflow, GetArticleContextWorkflow>();
+            services.AddTransient<IUpdateMediaCommand, UpdateMediaCommand>();
         }
 
         private static void RegisterPrimaryCommmandBuilders(IServiceCollection services)
@@ -142,6 +143,7 @@ namespace Bog.Cmd.CommandLine.Hosting
             services.AddTransient<IApplicationBuilder, DeleteArticleCommandBuilder>();
             services.AddTransient<IApplicationBuilder, RestoreArticleCommandBuilder>();
             services.AddTransient<IApplicationBuilder, UpdateEntryCommandBuilder>();
+            services.AddTransient<IApplicationBuilder, UpdateMediaCommandBuilder>();
         }
     }
 }

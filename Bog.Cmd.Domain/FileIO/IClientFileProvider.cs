@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.IO;
+using System.Threading.Tasks;
 
 namespace Bog.Cmd.Domain.FileIO
 {
@@ -7,5 +8,6 @@ namespace Bog.Cmd.Domain.FileIO
         bool CheckMetaFileExists(string metaFileName);
         Task WriteMetaFile(string metaFileName, Task<string> contentSourceProvider);
         Task<TModel> ReadMetaFile<TModel>(string metaFileName);
+        DirectoryInfo GetCurrentDirectory();
     }
 }

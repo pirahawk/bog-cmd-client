@@ -4,4 +4,8 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="DotNet.Glob" Version="3.0.9" />
+  </ItemGroup>
+
 </Project>
