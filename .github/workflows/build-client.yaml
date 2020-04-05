@@ -1,0 +1,32 @@
+name: Bog-Cmd-Client-Build
+on: [push]
+
+jobs:
+  build_nuget:
+    name: Build Application
+    runs-on: ubuntu-latest
+    steps:
+       
+    - name: setup-dotnet
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '3.1.100'
+
+    - name: setup-nuget
+      uses: nuget/setup-nuget@v1
+      with:
+        nuget-version: 'latest'
+
+    - name: checkout-repo
+      uses: actions/checkout@v2
+      with:
+        clean: 'true'
+
+    - name: echo-things
+      run: echo '${{github.workspace}} - ${{github.run_id}} - ${{github.run_number}}'
+    
+    - name: setup-nuget-source
+      run: nuget sources add -Name "github" -Source "https://nuget.pkg.github.com/pirahawk/index.json" -username "pirahawk" -password "${{secrets.GITHUB_TOKEN}}" -StorePasswordInClearText -configfile ./nuget.config
+
+    - name: build-dotnet
+      run: dotnet build --nologo
