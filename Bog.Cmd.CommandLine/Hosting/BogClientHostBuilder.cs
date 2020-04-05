@@ -124,6 +124,8 @@ namespace Bog.Cmd.CommandLine.Hosting
             services.AddTransient<IUpdateEntryCommand, UpdateEntryCommand>();
             services.AddTransient<IGetArticleContextWorkflow, GetArticleContextWorkflow>();
             services.AddTransient<IUpdateMediaCommand, UpdateMediaCommand>();
+            services.AddTransient<IGetLatestEntryContextForArticleWorkflow, GetLatestEntryContextForArticleWorkflow>();
+
         }
 
         private static void RegisterPrimaryCommmandBuilders(IServiceCollection services)

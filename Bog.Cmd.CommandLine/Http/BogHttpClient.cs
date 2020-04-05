@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Mime;
@@ -13,6 +14,11 @@ namespace Bog.Cmd.CommandLine.Http
         public async Task<HttpResponseMessage> PostMessage<TRequest>(string apiRoute, TRequest requestBody)
         {
             return await SendRequestWithPayload(HttpMethod.Post, apiRoute, requestBody);
+        }
+
+        public async Task<HttpResponseMessage> PostRawMessage(string apiRoute, Action<HttpRequestMessage> requestConfigurationFunction = null)
+        {
+            return await SendRequestNoPayload(apiRoute, HttpMethod.Post, requestConfigurationFunction);
         }
 
         public async Task<HttpResponseMessage> PutMessage<TRequest>(string apiRoute, TRequest requestBody)
@@ -30,12 +36,20 @@ namespace Bog.Cmd.CommandLine.Http
             return await SendRequestNoPayload(apiRoute, HttpMethod.Delete);
         }
 
-        private async Task<HttpResponseMessage> SendRequestNoPayload(string apiRoute, HttpMethod httpMethod)
+        public async Task<HttpResponseMessage> HeadRawMessage(string apiRoute, Action<HttpRequestMessage> requestConfigurationFunction = null)
+        {
+            return await SendRequestNoPayload(apiRoute, HttpMethod.Head, requestConfigurationFunction);
+        }
+
+        private async Task<HttpResponseMessage> SendRequestNoPayload(string apiRoute, HttpMethod httpMethod, Action<HttpRequestMessage> requestConfigurationFunction = null)
         {
             if (string.IsNullOrWhiteSpace(apiRoute))
                 throw new ArgumentException("Value cannot be null or whitespace.", nameof(apiRoute));
 
             var request = new HttpRequestMessage(httpMethod, apiRoute);
+
+            requestConfigurationFunction?.Invoke(request);
+
             var response = await SendAsync(request);
             return response;
         }
@@ -55,5 +69,7 @@ namespace Bog.Cmd.CommandLine.Http
 
             return response;
         }
+
+        
     }
 }

@@ -25,12 +25,12 @@ namespace Bog.Cmd.Common.Glob
             var allFiles = Directory.GetFiles(searchDirectoryPath);
             var allResults = new ConcurrentBag<string>();
             var allFilesCountDownEvent = new CountdownEvent(allFiles.Length);
-            
+             
             Parallel.ForEach(allFiles,  (filePath, outerLoopState, fileIndex) =>
             {
                 var fileName = Path.GetFileName(filePath);
                 var globCountDown = new CountdownEvent(allGlobs.Length);
-
+                
                 Parallel.ForEach(allGlobs, (glob, innerLoopState, globIndex) =>
                 {
                     if (glob.IsMatch(fileName))
@@ -67,7 +67,7 @@ namespace Bog.Cmd.Common.Glob
             });
 
             allFilesCountDownEvent.Wait(-1);
-            return allResults.ToArray();
+            return allResults.Distinct().ToArray();
         }
     }
 }

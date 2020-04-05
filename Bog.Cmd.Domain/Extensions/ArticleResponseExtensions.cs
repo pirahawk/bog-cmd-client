@@ -17,7 +17,19 @@ namespace Bog.Cmd.Domain.Extensions
         {
             if (articleResponse == null) throw new ArgumentNullException(nameof(articleResponse));
 
-            var articleRef = articleResponse.Links.FirstOrDefault(link => link.Relation == relLinkToFind);
+            return FindLink(articleResponse.Links, relLinkToFind);
+        }
+
+        public static string GetApiLink(this ArticleEntryResponse articleEntryResponse, string relLinkToFind)
+        {
+            if (articleEntryResponse == null) throw new ArgumentNullException(nameof(articleEntryResponse));
+
+            return FindLink(articleEntryResponse.Links, relLinkToFind);
+        }
+
+        private static string FindLink(Link[] links, string relLinkToFind)
+        {
+            var articleRef = links.FirstOrDefault(link => link.Relation == relLinkToFind);
 
             if (articleRef == null || string.IsNullOrWhiteSpace(articleRef.Href))
             {
