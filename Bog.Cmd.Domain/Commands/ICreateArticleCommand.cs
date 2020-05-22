@@ -4,6 +4,6 @@ namespace Bog.Cmd.Domain.Commands
 {
     public interface ICreateArticleCommand
     {
-        Task CreateArticle(string blogId, string author);
+        Task CreateArticle(string blogIdValue, string authorValue, string titleValue, string description = null);
     }
 }

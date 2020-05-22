@@ -2,6 +2,7 @@
 using Bog.Cmd.CommandLine.Extensions;
 using Bog.Cmd.Domain.Commands;
 using Bog.Cmd.Domain.Values;
+using Microsoft.Extensions.CommandLineUtils;
 
 namespace Bog.Cmd.CommandLine.Builders
 {
@@ -25,17 +26,21 @@ namespace Bog.Cmd.CommandLine.Builders
 
                 var blogId = app.Argument(CommandApplicationArgumentValues.BLOG_ID, CommandApplicationArgumentDescriptions.BLOG_ID);
                 var author = app.Argument(CommandApplicationArgumentValues.AUTHOR, CommandApplicationArgumentDescriptions.AUTHOR);
-
+                var title = app.Argument(CommandApplicationArgumentValues.TITLE, CommandApplicationArgumentDescriptions.TITLE);
+                var description = app.Option(CommandApplicationOptionValues.DESCRIPTION, CommandApplicationArgumentDescriptions.DESCRIPTION, CommandOptionType.SingleValue);
 
                 app.OnExecute(async () =>
                 {
-                    if (string.IsNullOrWhiteSpace(blogId.Value) || string.IsNullOrWhiteSpace(author.Value))
+                    if (string.IsNullOrWhiteSpace(blogId.Value) 
+                        || string.IsNullOrWhiteSpace(author.Value)
+                        || string.IsNullOrWhiteSpace(title.Value)
+                        )
                     {
                         app.ShowHelp();
                         return 1;
                     }
 
-                    await _cmd.CreateArticle(blogId.Value, author.Value);
+                    await _cmd.CreateArticle(blogId.Value, author.Value, title.Value, description.Value());
                     return 0;
                 });
             });

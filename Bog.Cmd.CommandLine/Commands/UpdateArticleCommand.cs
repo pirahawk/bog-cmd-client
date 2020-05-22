@@ -23,7 +23,7 @@ namespace Bog.Cmd.CommandLine.Commands
             _updateArticleContextWorkflow = updateArticleContextWorkflow;
         }
 
-        public async Task UpdateArticle(string author, bool publish)
+        public async Task UpdateArticle(string author = null, string title = null, string description = null, bool? publish = null)
         {
             if (!_fileProvider.CheckMetaFileExists(MetaFileNameValues.ARTICLE))
             {
@@ -41,9 +41,11 @@ namespace Bog.Cmd.CommandLine.Commands
 
             var articleRequest = new ArticleRequest
             {
-                Author = author ?? articleContext.Author,
+                BlogId = articleContext.BlogId,
+                Author = author,
+                Title = title,
+                Description = description,
                 IsPublished = publish,
-                BlogId = articleContext.BlogId
             };
 
             var updateArticleResponse = await _client.PutMessage(articleContext.GetSelfApiLink(), articleRequest);

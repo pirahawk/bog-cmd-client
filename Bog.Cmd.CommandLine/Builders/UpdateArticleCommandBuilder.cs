@@ -25,11 +25,17 @@ namespace Bog.Cmd.CommandLine.Builders
                 app.Description = "update a bog article within the current context";
 
                 var author = app.Option(CommandApplicationOptionValues.AUTHOR, CommandApplicationArgumentDescriptions.AUTHOR, CommandOptionType.SingleValue);
+                var title = app.Option(CommandApplicationOptionValues.TITLE, CommandApplicationArgumentDescriptions.TITLE, CommandOptionType.SingleValue);
+                var description = app.Option(CommandApplicationOptionValues.DESCRIPTION, CommandApplicationArgumentDescriptions.DESCRIPTION, CommandOptionType.SingleValue);
                 var publish = app.Option(CommandApplicationOptionValues.PUBLISH, CommandApplicationArgumentDescriptions.PUBLISH, CommandOptionType.NoValue);
+                var unPublish = app.Option(CommandApplicationOptionValues.UNPUBLISH, CommandApplicationArgumentDescriptions.UNPUBLISH, CommandOptionType.NoValue);
+
 
                 app.OnExecute(async () =>
                 {
-                    await _updateArticleCommand.UpdateArticle(author.Value(), publish.HasValue());
+                    bool? isPublished = publish.HasValue()? true : null as bool?;
+                    isPublished = unPublish.HasValue() ? false : isPublished;
+                    await _updateArticleCommand.UpdateArticle(author.Value(), title.Value(), description.Value(), isPublished);
                     return 0;
                 });
             });

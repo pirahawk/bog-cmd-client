@@ -21,12 +21,14 @@ namespace Bog.Cmd.CommandLine.Commands
             _fileProvider = fileProvider;
         }
 
-        public async Task CreateArticle(string blogId, string author)
+        public async Task CreateArticle(string blogId, string author, string title, string description = null)
         {
             if (string.IsNullOrWhiteSpace(blogId))
                 throw new ArgumentException("Value cannot be null or whitespace.", nameof(blogId));
             if (string.IsNullOrWhiteSpace(author))
                 throw new ArgumentException("Value cannot be null or whitespace.", nameof(author));
+            if (string.IsNullOrWhiteSpace(title))
+                throw new ArgumentException("Value cannot be null or whitespace.", nameof(title));
 
             if (_fileProvider.CheckMetaFileExists(MetaFileNameValues.ARTICLE))
             {
@@ -37,6 +39,8 @@ namespace Bog.Cmd.CommandLine.Commands
             var response = await _client.PostMessage(BogApiRouteValues.ARTICLE, new ArticleRequest
             {
                 Author = author,
+                Title = title,
+                Description = description,
                 BlogId = Guid.Parse(blogId)
             });
 
@@ -51,5 +55,7 @@ namespace Bog.Cmd.CommandLine.Commands
             contents = JsonUtility.Prettify<ArticleResponse>(contents);
             Console.WriteLine(contents);
         }
+
+        
     }
 }
