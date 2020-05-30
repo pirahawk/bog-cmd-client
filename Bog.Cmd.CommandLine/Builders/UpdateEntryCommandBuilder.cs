@@ -23,7 +23,7 @@ namespace Bog.Cmd.CommandLine.Builders
                 app.HelpOption(CommandApplicationConfigurationValues.HELP_TEMPLATE);
                 app.Description = "update a bog article entry within the current context";
 
-                var entryFileName = app.Argument(CommandApplicationArgumentValues.FILE_NAME, CommandApplicationArgumentDescriptions.FILE_NAME);
+                var entryFileName = app.Argument(CommandApplicationArgumentValues.FILE_NAME, CommandApplicationDescriptions.FILE_NAME);
 
                 app.OnExecute(async () =>
                 {

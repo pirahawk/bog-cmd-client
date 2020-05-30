@@ -24,10 +24,10 @@ namespace Bog.Cmd.CommandLine.Builders
                 app.HelpOption(CommandApplicationConfigurationValues.HELP_TEMPLATE);
                 app.Description = "create a new bog article";
 
-                var blogId = app.Argument(CommandApplicationArgumentValues.BLOG_ID, CommandApplicationArgumentDescriptions.BLOG_ID);
-                var author = app.Argument(CommandApplicationArgumentValues.AUTHOR, CommandApplicationArgumentDescriptions.AUTHOR);
-                var title = app.Argument(CommandApplicationArgumentValues.TITLE, CommandApplicationArgumentDescriptions.TITLE);
-                var description = app.Option(CommandApplicationOptionValues.DESCRIPTION, CommandApplicationArgumentDescriptions.DESCRIPTION, CommandOptionType.SingleValue);
+                var blogId = app.Argument(CommandApplicationArgumentValues.BLOG_ID, CommandApplicationDescriptions.BLOG_ID);
+                var author = app.Argument(CommandApplicationArgumentValues.AUTHOR, CommandApplicationDescriptions.AUTHOR);
+                var title = app.Argument(CommandApplicationArgumentValues.TITLE, CommandApplicationDescriptions.TITLE);
+                var description = app.Option(CommandApplicationOptionValues.DESCRIPTION, CommandApplicationDescriptions.DESCRIPTION, CommandOptionType.SingleValue);
 
                 app.OnExecute(async () =>
                 {

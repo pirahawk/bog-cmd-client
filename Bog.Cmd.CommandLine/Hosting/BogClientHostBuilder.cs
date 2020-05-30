@@ -125,7 +125,8 @@ namespace Bog.Cmd.CommandLine.Hosting
             services.AddTransient<IGetArticleContextWorkflow, GetArticleContextWorkflow>();
             services.AddTransient<IUpdateMediaCommand, UpdateMediaCommand>();
             services.AddTransient<IGetLatestEntryContextForArticleWorkflow, GetLatestEntryContextForArticleWorkflow>();
-
+            services.AddTransient<IUpdateMetaTagsCommand, UpdateMetaTagsCommand>();
+            services.AddTransient<IDeleteMetaTagsCommand, DeleteMetaTagsCommand>();
         }
 
         private static void RegisterPrimaryCommmandBuilders(IServiceCollection services)
@@ -146,6 +147,9 @@ namespace Bog.Cmd.CommandLine.Hosting
             services.AddTransient<IApplicationBuilder, RestoreArticleCommandBuilder>();
             services.AddTransient<IApplicationBuilder, UpdateEntryCommandBuilder>();
             services.AddTransient<IApplicationBuilder, UpdateMediaCommandBuilder>();
+            services.AddTransient<IApplicationBuilder, UpdateMetaTagsCommandBuilder>();
+            services.AddTransient<IApplicationBuilder, UpdateMetaTagsCommandBuilder>();
+            services.AddTransient<IApplicationBuilder, DeleteMetaTagCommandBuilder>();
         }
     }
 }

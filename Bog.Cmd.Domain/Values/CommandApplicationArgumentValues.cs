@@ -8,5 +8,6 @@
         public const string TITLE = "title";
         public const string ARTICLE_ID = "article-id";
         public const string MEDIA_GLOB_PATTERN = "media-glob-pattern";
+        public const string TAG = "meta-tags";
     }
 }

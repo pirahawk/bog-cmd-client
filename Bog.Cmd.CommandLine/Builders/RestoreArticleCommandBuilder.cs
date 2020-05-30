@@ -28,7 +28,7 @@ namespace Bog.Cmd.CommandLine.Builders
                 app.HelpOption(CommandApplicationConfigurationValues.HELP_TEMPLATE);
                 app.Description = "restore an existing bog article";
 
-                var articleId = app.Argument(CommandApplicationArgumentValues.ARTICLE_ID, CommandApplicationArgumentDescriptions.ARTICLE_ID);
+                var articleId = app.Argument(CommandApplicationArgumentValues.ARTICLE_ID, CommandApplicationDescriptions.ARTICLE_ID);
 
                 app.OnExecute(async () =>
                 {

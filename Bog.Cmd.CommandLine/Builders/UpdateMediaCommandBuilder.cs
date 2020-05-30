@@ -29,7 +29,7 @@ namespace Bog.Cmd.CommandLine.Builders
 
                 var mediaGlobPatternArgument = app.Argument(
                     CommandApplicationArgumentValues.MEDIA_GLOB_PATTERN, 
-                    CommandApplicationArgumentDescriptions.MEDIA_GLOB_PATTERN,
+                    CommandApplicationDescriptions.MEDIA_GLOB_PATTERN,
                     (commandArg) => { commandArg.MultipleValues = true; });
 
                 app.OnExecute(async () =>

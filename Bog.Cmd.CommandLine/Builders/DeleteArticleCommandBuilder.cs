@@ -24,7 +24,6 @@ namespace Bog.Cmd.CommandLine.Builders
                 app.HelpOption(CommandApplicationConfigurationValues.HELP_TEMPLATE);
                 app.Description = "mark bog article within the current context as deleted";
 
-
                 app.OnExecute(async () =>
                 {
                     await Task.CompletedTask;

@@ -24,11 +24,11 @@ namespace Bog.Cmd.CommandLine.Builders
                 app.HelpOption(CommandApplicationConfigurationValues.HELP_TEMPLATE);
                 app.Description = "update a bog article within the current context";
 
-                var author = app.Option(CommandApplicationOptionValues.AUTHOR, CommandApplicationArgumentDescriptions.AUTHOR, CommandOptionType.SingleValue);
-                var title = app.Option(CommandApplicationOptionValues.TITLE, CommandApplicationArgumentDescriptions.TITLE, CommandOptionType.SingleValue);
-                var description = app.Option(CommandApplicationOptionValues.DESCRIPTION, CommandApplicationArgumentDescriptions.DESCRIPTION, CommandOptionType.SingleValue);
-                var publish = app.Option(CommandApplicationOptionValues.PUBLISH, CommandApplicationArgumentDescriptions.PUBLISH, CommandOptionType.NoValue);
-                var unPublish = app.Option(CommandApplicationOptionValues.UNPUBLISH, CommandApplicationArgumentDescriptions.UNPUBLISH, CommandOptionType.NoValue);
+                var author = app.Option(CommandApplicationOptionValues.AUTHOR, CommandApplicationDescriptions.AUTHOR, CommandOptionType.SingleValue);
+                var title = app.Option(CommandApplicationOptionValues.TITLE, CommandApplicationDescriptions.TITLE, CommandOptionType.SingleValue);
+                var description = app.Option(CommandApplicationOptionValues.DESCRIPTION, CommandApplicationDescriptions.DESCRIPTION, CommandOptionType.SingleValue);
+                var publish = app.Option(CommandApplicationOptionValues.PUBLISH, CommandApplicationDescriptions.PUBLISH, CommandOptionType.NoValue);
+                var unPublish = app.Option(CommandApplicationOptionValues.UNPUBLISH, CommandApplicationDescriptions.UNPUBLISH, CommandOptionType.NoValue);
 
 
                 app.OnExecute(async () =>
@@ -39,7 +39,6 @@ namespace Bog.Cmd.CommandLine.Builders
                     return 0;
                 });
             });
-
         }
     }
 }

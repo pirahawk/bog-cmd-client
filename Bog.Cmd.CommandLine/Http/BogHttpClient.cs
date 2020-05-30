@@ -36,6 +36,11 @@ namespace Bog.Cmd.CommandLine.Http
             return await SendRequestNoPayload(apiRoute, HttpMethod.Delete);
         }
 
+        public async Task<HttpResponseMessage> DeleteMessage<TRequest>(string apiRoute, TRequest requestBody)
+        {
+            return await SendRequestWithPayload(HttpMethod.Delete, apiRoute, requestBody);
+        }
+
         public async Task<HttpResponseMessage> HeadRawMessage(string apiRoute, Action<HttpRequestMessage> requestConfigurationFunction = null)
         {
             return await SendRequestNoPayload(apiRoute, HttpMethod.Head, requestConfigurationFunction);
