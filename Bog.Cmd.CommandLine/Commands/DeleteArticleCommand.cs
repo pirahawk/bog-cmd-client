@@ -1,10 +1,6 @@
-﻿using Bog.Api.Domain.Models.Http;
-using Bog.Cmd.CommandLine.Http;
+﻿using Bog.Cmd.CommandLine.Http;
 using Bog.Cmd.Domain.Commands;
 using Bog.Cmd.Domain.Extensions;
-using Bog.Cmd.Domain.FileIO;
-using Bog.Cmd.Domain.Values;
-using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -13,29 +9,21 @@ namespace Bog.Cmd.CommandLine.Commands
     public class DeleteArticleCommand : IDeleteArticleCommand
     {
         private readonly BogHttpClient _client;
-        private readonly IClientFileProvider _fileProvider;
         private readonly IUpdateArticleContextWorkflow _updateArticleContextWorkflow;
+        private readonly IGetArticleContextWorkflow _getArticleContextWorkflow;
 
-        public DeleteArticleCommand(BogHttpClient client,  IClientFileProvider fileProvider, IUpdateArticleContextWorkflow updateArticleContextWorkflow)
+        public DeleteArticleCommand(BogHttpClient client,  IUpdateArticleContextWorkflow updateArticleContextWorkflow, IGetArticleContextWorkflow getArticleContextWorkflow)
         {
             _client = client;
-            _fileProvider = fileProvider;
             _updateArticleContextWorkflow = updateArticleContextWorkflow;
+            _getArticleContextWorkflow = getArticleContextWorkflow;
         }
 
         public async Task MarkArticleAsDeleted()
         {
-            if (!_fileProvider.CheckMetaFileExists(MetaFileNameValues.ARTICLE))
-            {
-                Console.Error.WriteLine("No Article exists in current context");
-                return;
-            }
-
-            var articleContext = await _fileProvider.ReadMetaFile<ArticleResponse>(MetaFileNameValues.ARTICLE);
-
+            var articleContext = await _getArticleContextWorkflow.GetArticleContext();
             if (articleContext == null)
             {
-                Console.Error.WriteLine("Could not read article information from current context");
                 return;
             }
 

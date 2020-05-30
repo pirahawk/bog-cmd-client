@@ -24,6 +24,12 @@ namespace Bog.Cmd.CommandLine.Commands
             }
 
             var articleContext = await _fileProvider.ReadMetaFile<ArticleResponse>(MetaFileNameValues.ARTICLE);
+
+            if (articleContext == null)
+            {
+                Console.Error.WriteLine("Could not read article information from current context");
+            }
+
             return articleContext;
         }
     }

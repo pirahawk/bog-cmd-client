@@ -1,41 +1,31 @@
 ﻿using Bog.Api.Domain.Models.Http;
 using Bog.Cmd.CommandLine.Http;
 using Bog.Cmd.Domain.Commands;
-using Bog.Cmd.Domain.FileIO;
-using Bog.Cmd.Domain.Values;
-using System;
+using Bog.Cmd.Domain.Extensions;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Bog.Cmd.Domain.Extensions;
 
 namespace Bog.Cmd.CommandLine.Commands
 {
     public class UpdateArticleCommand : IUpdateArticleCommand
     {
         private readonly BogHttpClient _client;
-        private readonly IClientFileProvider _fileProvider;
         private readonly IUpdateArticleContextWorkflow _updateArticleContextWorkflow;
+        private readonly IGetArticleContextWorkflow _getArticleContextWorkflow;
 
-        public UpdateArticleCommand(BogHttpClient client, IClientFileProvider fileProvider, IUpdateArticleContextWorkflow updateArticleContextWorkflow)
+
+        public UpdateArticleCommand(BogHttpClient client, IGetArticleContextWorkflow getArticleContextWorkflow, IUpdateArticleContextWorkflow updateArticleContextWorkflow)
         {
             _client = client;
-            _fileProvider = fileProvider;
+            _getArticleContextWorkflow = getArticleContextWorkflow;
             _updateArticleContextWorkflow = updateArticleContextWorkflow;
         }
 
         public async Task UpdateArticle(string author = null, string title = null, string description = null, bool? publish = null)
         {
-            if (!_fileProvider.CheckMetaFileExists(MetaFileNameValues.ARTICLE))
-            {
-                Console.Error.WriteLine("No Article exists in current context");
-                return;
-            }
-
-            var articleContext = await _fileProvider.ReadMetaFile<ArticleResponse>(MetaFileNameValues.ARTICLE);
-
+            var articleContext = await _getArticleContextWorkflow.GetArticleContext();
             if (articleContext == null)
             {
-                Console.Error.WriteLine("Could not read article information from current context");
                 return;
             }
 

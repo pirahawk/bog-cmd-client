@@ -1,33 +1,31 @@
-﻿using Bog.Cmd.CommandLine.Http;
+﻿using Bog.Api.Domain.Models.Http;
+using Bog.Api.Domain.Values;
+using Bog.Cmd.CommandLine.Http;
+using Bog.Cmd.Common.Json;
 using Bog.Cmd.Domain.Commands;
+using Bog.Cmd.Domain.Extensions;
 using Bog.Cmd.Domain.FileIO;
 using System;
 using System.IO;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using Bog.Api.Domain.Models.Http;
-using Bog.Api.Domain.Values;
-using Bog.Cmd.Common.Json;
-using Bog.Cmd.Domain.Extensions;
-using Bog.Cmd.Domain.Values;
 
 namespace Bog.Cmd.CommandLine.Commands
 {
     public class UpdateEntryCommand : IUpdateEntryCommand
     {
-        private readonly IClientFileProvider _fileProvider;
         private readonly BogHttpClient _client;
+        private readonly IGetArticleContextWorkflow _getArticleContextWorkflow;
 
-        public UpdateEntryCommand(IClientFileProvider fileProvider, BogHttpClient client)
+        public UpdateEntryCommand(IClientFileProvider fileProvider, BogHttpClient client, IGetArticleContextWorkflow getArticleContextWorkflow)
         {
-            _fileProvider = fileProvider;
             _client = client;
+            _getArticleContextWorkflow = getArticleContextWorkflow;
         }
 
         public async Task UpdateEntry(string entryFilePath)
         {
-
             entryFilePath = Path.GetFullPath(entryFilePath);
             Console.WriteLine($"attempting to load entry file: {entryFilePath}");
 
@@ -36,17 +34,9 @@ namespace Bog.Cmd.CommandLine.Commands
                 throw new FileNotFoundException($"Could not load entry file: {entryFilePath}");
             }
 
-            if (!_fileProvider.CheckMetaFileExists(MetaFileNameValues.ARTICLE))
-            {
-                Console.Error.WriteLine("No Article exists in current context");
-                return;
-            }
-
-            var articleContext = await _fileProvider.ReadMetaFile<ArticleResponse>(MetaFileNameValues.ARTICLE);
-
+            var articleContext = await _getArticleContextWorkflow.GetArticleContext();
             if (articleContext == null)
             {
-                Console.Error.WriteLine("Could not read article information from current context");
                 return;
             }
 
