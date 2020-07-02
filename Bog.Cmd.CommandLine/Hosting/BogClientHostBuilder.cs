@@ -148,7 +148,6 @@ namespace Bog.Cmd.CommandLine.Hosting
             services.AddTransient<IApplicationBuilder, UpdateEntryCommandBuilder>();
             services.AddTransient<IApplicationBuilder, UpdateMediaCommandBuilder>();
             services.AddTransient<IApplicationBuilder, UpdateMetaTagsCommandBuilder>();
-            services.AddTransient<IApplicationBuilder, UpdateMetaTagsCommandBuilder>();
             services.AddTransient<IApplicationBuilder, DeleteMetaTagCommandBuilder>();
         }
     }
