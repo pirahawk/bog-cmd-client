@@ -5,8 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Bog.Api.Common" Version="1.0.45" />
-    <PackageReference Include="Bog.Api.Domain" Version="1.0.45" />
+    <PackageReference Include="Bog.Api.Common" Version="1.0.51" />
+    <PackageReference Include="Bog.Api.Domain" Version="1.0.51" />
     <PackageReference Include="Microsoft.Extensions.CommandLineUtils" Version="1.1.1" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="3.1.5" />
   </ItemGroup>

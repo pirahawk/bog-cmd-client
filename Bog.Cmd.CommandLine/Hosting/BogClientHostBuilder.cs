@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Bog.Api.Domain.Values;
 
 namespace Bog.Cmd.CommandLine.Hosting
 {
@@ -100,6 +101,7 @@ namespace Bog.Cmd.CommandLine.Hosting
                 var clientBaseAddress = new Uri($"{apiSettings.Scheme}://{apiSettings.Host}");
                 var client = new BogHttpClient();
                 client.BaseAddress = clientBaseAddress;
+                client.DefaultRequestHeaders.Add(BogApiHeaderNamesValuesObject.API_KEY, apiSettings.Api.ToString());
                 return client;
             });
 

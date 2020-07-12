@@ -1,6 +1,7 @@
 {
   "BlobApiSettings": {
     "Host": "localhost:5000",
-    "Scheme": "http"
+    "Scheme": "http",
+    "Api": "3a547a72-62dd-4f9a-8b4c-48dcae11e234"
   } 
 }
