@@ -23,23 +23,4 @@
     </None>
   </ItemGroup>
 
-  <!--Don't quite need to do this yet!!-->
-  <Target Name="CopyExeForTesting" AfterTargets="Publish">
-    <PropertyGroup>
-      <CurrentSlnDirectory>$([System.IO.Path]::GetDirectoryName($(MSBuildProjectDirectory)))</CurrentSlnDirectory>
-      <ExeTestLocation>$([System.IO.Path]::GetDirectoryName($(CurrentSlnDirectory)))$([System.IO.Path]::DirectorySeparatorChar)client-test</ExeTestLocation>
-    </PropertyGroup>
-    
-    <ItemGroup>
-      <BuildExe Include="$(OutputPath)\*.exe"></BuildExe>
-    </ItemGroup>
-    
-    <!--<Copy SourceFiles="@(BuildExe)" DestinationFolder="$(ExeTestLocation)"></Copy>-->
-  </Target>
-  
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Message Importance="high" Text="Running Postbuild event to publish client"></Message>
-    <Exec Command="dotnet publish --no-self-contained --no-build /p:PublishSingleFile=false -o &quot;C:\Code\blog\client-test&quot;  $(ProjectPath)" />
-  </Target>
-
 </Project>
