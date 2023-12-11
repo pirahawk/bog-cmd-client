@@ -24,6 +24,8 @@ namespace Bog.Cmd.Client
                 Task.WaitAll(cmdAppRunner.RunAsync());
             }
 
+            //var svc = ActivatorUtilities.CreateInstance<ImagingService>(host.Services);
+
             //try
             //{
             //    Task.WaitAll(host.StartAsync());

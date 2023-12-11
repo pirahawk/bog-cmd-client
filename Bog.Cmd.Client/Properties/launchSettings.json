@@ -2,7 +2,7 @@
   "profiles": {
     "Bog.Cmd.Client": {
       "commandName": "Project",
-      "commandLineArgs": "delete tag dotnetCore azure"
+      "commandLineArgs": "create article \"8724c4c5-7956-484a-896b-f379fdbc7d8c\" \"mrPt\" \"This works\""
     }
   }
 }
